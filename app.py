@@ -4,6 +4,8 @@ from flask_jwt import JWT
 from Resources.item import Item,ItemList
 import datetime
 
+import os
+
 from security import authenticate,identity
 
 from Resources.user import UserRegister
@@ -21,7 +23,8 @@ app.secret_key = 'farmahg'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 # setting database uri, works with all type of sql distros
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///data.db'
+# os.environ.get('DATABASE_URL') helps in using postgrace in heroku while also lets us use sqlite as default
+app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL','sqlite:///data.db')
 
 # Creating an api to add resources to
 api = Api(app)
