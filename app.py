@@ -17,18 +17,24 @@ app = Flask(__name__)
 # setting app secret key
 app.secret_key = 'farmahg'
 
-# Creating an api to add resources to
-api = Api(app)
-
-# Creating a JWT for auth
-jwt = JWT(app,authenticate,identity)
-# it will automatically create an auth endpoint that will return an access token
-
 # turning off Flask_SQLAlchemy tracking extension to save computing resources
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 # setting database uri, works with all type of sql distros
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///data.db'
+
+# Creating an api to add resources to
+api = Api(app)
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
+# Creating a JWT for auth
+jwt = JWT(app,authenticate,identity)
+# it will automatically create an auth endpoint that will return an access token
+
+
 
 api.add_resource(Item,'/item/<string:name>')
 api.add_resource(ItemList,'/items')
@@ -40,9 +46,7 @@ api.add_resource(StoreList,'/stores')
 app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(seconds=1800)
 
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
+
 
 if __name__=='__main__':
     from db import db
