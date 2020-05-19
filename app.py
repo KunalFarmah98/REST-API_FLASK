@@ -6,8 +6,6 @@ import datetime
 
 import os
 
-from security import authenticate,identity
-
 from Resources.user import UserRegister, User, UserLogin
 from Models.user import UserModel
 from Models.item import ItemModel
