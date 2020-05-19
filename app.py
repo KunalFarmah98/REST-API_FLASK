@@ -8,7 +8,7 @@ import os
 
 from security import authenticate,identity
 
-from Resources.user import UserRegister
+from Resources.user import UserRegister, User
 from Models.user import UserModel
 from Models.item import ItemModel
 
@@ -25,6 +25,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 # setting database uri, works with all type of sql distros
 # os.environ.get('DATABASE_URL') helps in using postgrace in heroku while also lets us use sqlite as default
 app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL','sqlite:///data.db')
+
+# Allowing app to show exceptions instead of a simple 500 error
+app.config['PROPAGATE_EXCEPTIONS']=True
 
 # Creating an api to add resources to
 api = Api(app)
@@ -45,6 +48,7 @@ api.add_resource(ItemList,'/items')
 api.add_resource(UserRegister,'/register')
 api.add_resource(Store,'/store/<string:name>')
 api.add_resource(StoreList,'/stores')
+api.add_resource(User,'/user/<int:user_id>')
 
 # setting token expiration time
 app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(seconds=1800)

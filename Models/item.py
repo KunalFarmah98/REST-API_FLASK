@@ -24,12 +24,20 @@ class ItemModel(db.Model):
     # we are not looking into the table unless we call json
     # (slightly slower)
     def json(self):
-        return {'name': self.name, 'price': self.price}
+        return {'id': self.id,
+                'name': self.name,
+                'price': self.price,
+                'store_id':self.store_id
+                }
 
     @classmethod
     def find_by_name(cls,name):
         # SELECT * FROM Items WHERE name = name LIMIT = 1
         return cls.query.filter_by(name=name).first()
+
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()
 
 
     def save_to_db(self):
