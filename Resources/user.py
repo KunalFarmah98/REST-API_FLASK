@@ -55,15 +55,15 @@ class UserLogin(Resource):
         # gets data from parser
         data = _user_parser.parse_args()
         #  finds user in db
-        user = UserMode.find_by_username(data['username'])
+        user = UserModel.find_by_username(data['username'])
         #check password
-        if user and user.password == data['passwod']:
+        if user and user.password == data['password']:
             # creates an access token and a refresh token
             access_token= create_access_token(identity=user.id,fresh=True)
             refresh_token  = create_refresh_token(user.id)
 
             return{
-                'access token': access_token,
+                'access_token': access_token,
                 'refresh_token': refresh_token
             },200
 
