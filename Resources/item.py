@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask,request
 from flask_restful import Resource, Api, reqparse
-from flask_jwt import JWT,jwt_required
+from flask_jwt_extended import jwt_required
 
 from Models.item import ItemModel
 
@@ -27,7 +27,8 @@ class Item (Resource):
 
     # this makes this endpoint authorization specific
     # we need to send the jwt access token in the header of the request
-    @jwt_required()
+    # JWT manager doesn't take arguments for decorator
+    @jwt_required
     def get(self,name):
 
         item = ItemModel.find_by_name(name)

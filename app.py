@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Resource, Api
-from flask_jwt import JWT
+from flask_jwt_extended import JWTManager
 from Resources.item import Item,ItemList
 import datetime
 
@@ -8,7 +8,7 @@ import os
 
 from security import authenticate,identity
 
-from Resources.user import UserRegister, User
+from Resources.user import UserRegister, User, UserLogin
 from Models.user import UserModel
 from Models.item import ItemModel
 
@@ -37,9 +37,9 @@ api = Api(app)
 # def create_tables():
 #     db.create_all()
 
-# Creating a JWT for auth
-jwt = JWT(app,authenticate,identity)
-# it will automatically create an auth endpoint that will return an access token
+# Creating a JWTManager for auth
+jwt = JWTManager(app)
+# it will not create any endpoint
 
 
 
@@ -49,6 +49,7 @@ api.add_resource(UserRegister,'/register')
 api.add_resource(Store,'/store/<string:name>')
 api.add_resource(StoreList,'/stores')
 api.add_resource(User,'/user/<int:user_id>')
+api.add_resource(UserLogin,'/login')
 
 # setting token expiration time
 app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(seconds=1800)
