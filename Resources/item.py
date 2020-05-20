@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask,request
 from flask_restful import Resource, Api, reqparse
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_claims
 
 from Models.item import ItemModel
 
@@ -55,7 +55,12 @@ class Item (Resource):
 
         return new_item.json(),201
 
+    # making delete only admin specific
+    @jwt_required
     def delete(self, name):
+        claims = get_jwt_claims()
+        if not claims['is_admin']:
+            return {'message':'Admin privileges required for this operation'}
         item = ItemModel.find_by_name(name)
         if item:
             item.delte_from_db()

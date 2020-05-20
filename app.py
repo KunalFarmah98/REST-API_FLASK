@@ -39,7 +39,15 @@ api = Api(app)
 jwt = JWTManager(app)
 # it will not create any endpoint
 
+# setting an admin based on our requirements
+# identity is whatever we pass in the create_access_token() method during login
+@jwt.user_claims_loader
+def add_claims_to_jwt(identity):
+    # making user with id 1 as admin
+    if identity==1:
+        return {'is_admin':True}
 
+    return {'is_admin':False}
 
 api.add_resource(Item,'/item/<string:name>')
 api.add_resource(ItemList,'/items')

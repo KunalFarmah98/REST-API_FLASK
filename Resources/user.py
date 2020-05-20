@@ -1,6 +1,6 @@
 import sqlite3
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import  create_access_token,create_refresh_token
+from flask_jwt_extended import  create_access_token,create_refresh_token,jwt_required,get_jwt_claims
 from Models.user import UserModel
 
 
@@ -40,9 +40,14 @@ class User(Resource):
         if(not user):
             return {'message': 'User not found'},404
         return user.json()
-
+    
+    # making deleting a user admin only
+    @jwt_required
     @classmethod
     def delete(cls,user_id):
+        claims = get_jwt_claims()
+        if not claims['is_admin']:
+            return {'message':'Admin Privileges required for this operation'}
         user = UserModel.find_by_id(user_id)
         if(not user):
             return {'message': 'User not found'},404

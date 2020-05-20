@@ -2,6 +2,8 @@ import sqlite3
 from flask import Flask
 from flask_restful import Resource
 from Models.store import StoreModel
+from flask_jwt_extended import  jwt_required,get_jwt_claims
+
 
 
 class Store(Resource):
@@ -25,8 +27,12 @@ class Store(Resource):
 
         return store.json(),201
 
-    
+    # making delete operation admin only
+    @jwt_required
     def delete(self,name):
+        claims = get_jwt_claims()
+        if not claims['is_admin']:
+            return {'message':'Admin privileges required for this operation'}
         store = StoreModel.find_by_name(name)
         if(store):
             store.delete_from_db()
