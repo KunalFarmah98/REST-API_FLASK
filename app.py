@@ -6,7 +6,7 @@ import datetime
 
 import os
 
-from Resources.user import UserRegister, User, UserLogin
+from Resources.user import UserRegister, User, UserLogin, TokenRefresh
 from Models.user import UserModel
 from Models.item import ItemModel
 
@@ -56,6 +56,7 @@ api.add_resource(Store,'/store/<string:name>')
 api.add_resource(StoreList,'/stores')
 api.add_resource(User,'/user/<int:user_id>')
 api.add_resource(UserLogin,'/login')
+api.add_resource(TokenRefresh,'/refresh')
 
 # setting token expiration time
 app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(seconds=1800)

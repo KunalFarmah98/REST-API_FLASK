@@ -1,6 +1,13 @@
 import sqlite3
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import  create_access_token,create_refresh_token,jwt_required,get_jwt_claims
+from flask_jwt_extended import  {
+    create_access_token,
+    create_refresh_token,
+    jwt_required,
+    get_jwt_claims,
+    get_jwt_identity,
+    jwt_refresh_token_required
+}
 from Models.user import UserModel
 
 
@@ -74,3 +81,11 @@ class UserLogin(Resource):
             },200
 
         return{'message':'Invalid User Credentials'},401
+
+class TokenRefresh(Resource):
+    @jwt_refresh_token_required
+    def post(self):
+        curr_user = get_jwt_identity()
+        new_token = create_access_token(identity=curr_user, fresh=False)
+        return {'access_token':new_token},200
+
