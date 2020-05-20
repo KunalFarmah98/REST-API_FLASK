@@ -39,12 +39,13 @@ class User(Resource):
         user = UserModel.find_by_id(user_id)
         if(not user):
             return {'message': 'User not found'},404
+        elif user.id==1:
+            return {'message': 'Can not delete admin'},500
         return user.json()
     
     # making deleting a user admin only
     @jwt_required
-    @classmethod
-    def delete(cls,user_id):
+    def delete(self,user_id):
         claims = get_jwt_claims()
         if not claims['is_admin']:
             return {'message':'Admin Privileges required for this operation'}
