@@ -1,7 +1,8 @@
 # REST-API_FLASK
 # A simple REST API made using Flask hosted on Heroku.
 ### Capable of adding, updating, removing data in the PostgraceSQL database while being completely secure.
-### Ability for secure sign up and login facility via simple endpoints.
+### Ability for secure sign up, login and logout facility via simple endpoints.
+### Admin access to deletion
 
 #
 
