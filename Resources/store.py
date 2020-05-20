@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask
 from flask_restful import Resource
 from Models.store import StoreModel
-from flask_jwt_extended import  jwt_required,get_jwt_claims,fresh_jwt_required
+from flask_jwt_extended import  jwt_required,get_jwt_claims,fresh_jwt_required, jwt_optional, get_jwt_identity
 
 
 
@@ -43,5 +43,12 @@ class Store(Resource):
 
 
 class StoreList(Resource):
+    @jwt_optional
     def get(self):
-        return {'stores': [store.json() for store  in StoreModel.find_all()]} # wrapping query.all() in a function
+        user_id = get_jwt_identity()
+        stores =  [store.json() for store  in StoreModel.find_all()]
+        if user_id:
+            return {'stores':stores},200
+        return {'items': [store['name'] for store in stores],
+                'message': 'Login or provide authorization header to get detailed item information'
+                },200
