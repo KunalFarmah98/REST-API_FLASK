@@ -7,7 +7,8 @@
 
 ## Made using Flask and Python-3.7.4
 ## Uses FLASK-RESTful for seamless integration into REST principle.
-## Uses FLASK-JWT with 30 min token validity for security and authentication, just login again and get issued a new token (To be Updated with auto refreshing soon)
+## Uses FLASK-JWT with 30 min token validity for security and authentication.
+## Used FLASK-JWT-Extended to handle tokens and refresh them when needed.
 ## Uses SQLAlchemy for integration with sqlite for testing on local machine and postgrace for use online
 ## Clean and reusable code for extending the features further.
 
@@ -19,7 +20,7 @@
 ### ......The DELETE calls for store,item,user are only Available to admins (the rules for admin can be changed in the source code). Also a user who is also an admin can't be deleted. BY DEFAULT, user_id = 1 IS ADMIN.
 ### ......The PUT and POST  calls for items need a user to be logged in and requires a fresh token. So you need to get the token refreshed to use those endpoints if original token expired. (For Security Purposes)
 
-
+##
 ## Base url : <https://stores-rest-api-flask01.herokuapp.com/>
 ## End Points:
 
