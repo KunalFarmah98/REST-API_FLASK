@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask
 from flask_restful import Resource
 from Models.store import StoreModel
-from flask_jwt_extended import  jwt_required,get_jwt_claims
+from flask_jwt_extended import  jwt_required,get_jwt_claims,fresh_jwt_required
 
 
 
@@ -14,7 +14,7 @@ class Store(Resource):
             return store.json(),200
         return {"message": "Store not Found"}
 
-
+    @fresh_jwt_required
     def post(self,name):
         if (StoreModel.find_by_name(name)):
             return {"message": "Store {} already present".format(name)}

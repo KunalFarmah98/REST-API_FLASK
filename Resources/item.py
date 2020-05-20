@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask,request
 from flask_restful import Resource, Api, reqparse
-from flask_jwt_extended import jwt_required, get_jwt_claims, jwt_optional, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_claims, jwt_optional, get_jwt_identity, fresh_jwt_required
 
 from Models.item import ItemModel
 
@@ -38,7 +38,8 @@ class Item (Resource):
         else:
             return {'message': 'Item not found'},404
 
-
+    # making post requiring fresh token, that is loging in 
+    @fresh_jwt_required
     def post(self,name):
 
         if(ItemModel.find_by_name(name)):
@@ -68,7 +69,7 @@ class Item (Resource):
         else:
             return {'message': 'Item not found'}
 
-
+    @fresh_jwt_required
     def put(self, name):
         # parsing required arguments only instead of entire json
         data = Item.parser.parse_args()
