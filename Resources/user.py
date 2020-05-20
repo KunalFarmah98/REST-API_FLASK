@@ -39,8 +39,6 @@ class User(Resource):
         user = UserModel.find_by_id(user_id)
         if(not user):
             return {'message': 'User not found'},404
-        elif user.id==1:
-            return {'message': 'Can not delete admin'},500
         return user.json()
     
     # making deleting a user admin only
@@ -52,6 +50,8 @@ class User(Resource):
         user = UserModel.find_by_id(user_id)
         if(not user):
             return {'message': 'User not found'},404
+        elif user.id==1:
+            return {'message': 'Can not delete admin'},500
         user.delete_from_db()
         return {'message': 'User {} deleted'.format(user.username)},200
 
