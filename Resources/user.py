@@ -1,13 +1,13 @@
 import sqlite3
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import  {
+from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
     jwt_required,
     get_jwt_claims,
     get_jwt_identity,
     jwt_refresh_token_required
-}
+)
 from Models.user import UserModel
 
 
